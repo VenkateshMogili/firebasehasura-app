@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "snagger-prod": {
+      "hosting": {
+        "hasura-tutorial": [
+          "snagger-prod"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "snagger-prod"
+  }
+}

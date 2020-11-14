@@ -1,0 +1,28 @@
+version: '3.6'
+services:
+  postgres:
+    image: postgres:12
+    container_name: hasura_totorial_db
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 717616e661039a05ee10edc2202bd5f4ab4f4da1779c29af3ddb40b996aa2536
+  graphql-engine:
+    image: hasura/graphql-engine:v1.3.2
+    volumes:
+      - ./migrations:/hasura-migrations
+      - ./metadata:/hasura-metadata
+    container_name: hasura_totorial
+    ports:
+      - '8081:8080'
+    depends_on:
+      - 'postgres'
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://tlwheyndwrnozd:7314479c23dd57d8b9a278d6002942e170640e2d953b84e873f13a197d84656c@ec2-3-218-112-22.compute-1.amazonaws.com:5432/d38pbqhske0rh5
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true' # set to "false" to disable console
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"RS256","jwk_url": "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com", "audience": "snagger-prod", "issuer": "https://securetoken.google.com/snagger-prod"}'
+      ## uncomment next line to set an admin secret
+      HASURA_GRAPHQL_ADMIN_SECRET: mysecretkey
+volumes:
+  db_data:
